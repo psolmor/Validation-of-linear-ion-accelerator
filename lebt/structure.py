@@ -1,0 +1,133 @@
+import RF_Track as rft
+import numpy as np
+
+def create_lebt(B0):
+    drift1 = rft.Drift(0.260)
+    drift1.set_aperture(0.05)
+
+    coll1 = rft.Drift(0.0025)
+    coll1.set_aperture_x(0.0179)
+    coll1.set_aperture_y(0.0144)
+
+    drift2 = rft.Drift(0.3375)
+    drift2.set_aperture(0.05)
+
+    #Dipole
+    M0 = B0.get_phase_space('%P %Q')
+    P0 = np.mean(M0[:,0]) #[MeV/c]
+
+    P_Q = P0 / M0[1,1]
+    rho = 0.4
+    angle = np.deg2rad(90)
+    E1 = np.deg2rad(27)
+    E2 = np.deg2rad(27)
+    L = rho * angle  # m
+    HGAP = 0.045
+    FINT = 0.7
+
+    dip = rft.SBend(L, angle, P_Q, E1, E2)
+    dip.set_tt_nsteps(628)
+    dip.set_hgap(HGAP)
+    dip.set_fint(FINT)
+
+    drift3 = rft.Drift(0.208)
+    drift3.set_aperture(0.05)
+
+    #chopper 
+    E = 3960/0.06
+    L = 0.15
+    R = 0.03
+
+    hr = 0.005            
+    hz = 0.005          
+
+    Nr = int(R/hr) + 1
+    Nz = int(L/hz) + 1
+
+    Er = np.ones((Nr, Nz)) * E  
+    Ez = np.zeros((Nr, Nz))       
+    Bt = np.zeros((Nr, Nz))
+    Bz = np.zeros((Nr, Nz))
+
+
+    chopper = rft.RF_FieldMap_2d(
+        Er, Ez,
+        Bt, Bz,
+        hr, hz,
+        L,
+        0,      # frecuencia = 0 (DC)
+        0       # direction = 0 (estático)
+    )
+
+    drift_chop = rft.Drift(0.15)
+    drift_chop.set_aperture(0.055)    
+
+    drift4 = rft.Drift(0.14)
+    drift4.set_aperture(0.055)
+
+    drift5 = rft.Drift(0.722)
+    drift5.set_aperture(0.05)
+
+    collx = rft.Drift(0.002)
+    collx.set_aperture(0.0118)
+
+    drift_col = rft.Drift(0.002)
+    drift_col.set_aperture(0.02)
+
+    colly = rft.Drift(0.002)
+    colly.set_aperture(0.02)
+
+    drift6 = rft.Drift(0.194)
+    drift6.set_aperture(0.05)
+
+    quad1 = rft.Quadrupole(0.14)
+    quad1.set_aperture(0.042)
+    quad1.set_gradient(-1.19)
+
+    drift7 = rft.Drift(0.092)
+    drift7.set_aperture(0.05)
+
+    quad2 = rft.Quadrupole(0.14)
+    quad2.set_aperture(0.042)
+    quad2.set_gradient(1.76)
+
+    drift8 = rft.Drift(0.092)
+    drift8.set_aperture(0.05)
+
+    quad3 = rft.Quadrupole(0.14)
+    quad3.set_aperture(0.042)
+    quad3.set_gradient(-2.13)
+
+    drift9 = rft.Drift(0.9101)
+    drift9.set_aperture(0.05)
+
+    sol = rft.Solenoid(0.2574,0.344,0.042)
+
+    drift10 = rft.Drift(0.139)
+    drift10.set_aperture(0.05)
+
+    lebt = rft.Lattice()
+    lebt.append_ref(drift1)
+    lebt.append_ref(coll1)
+    lebt.append_ref(drift2)
+    lebt.append_ref(dip)
+    lebt.append_ref(drift3)
+    lebt.append_ref(drift_chop)
+    lebt.append_ref(drift4)
+    lebt.append_ref(drift5)
+    lebt.append_ref(collx)
+    lebt.append_ref(drift_col)
+    lebt.append_ref(colly)
+    lebt.append_ref(drift6)
+    lebt.append_ref(quad1)
+    lebt.append_ref(drift7)
+    lebt.append_ref(quad2)
+    lebt.append_ref(drift8)
+    lebt.append_ref(quad3)
+    lebt.append_ref(drift9)
+    lebt.append_ref(sol)
+    lebt.append_ref(drift10)
+
+    return lebt
+
+
