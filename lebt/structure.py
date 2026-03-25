@@ -46,31 +46,6 @@ def create_lebt(B0):
     drift3.set_aperture(0.05)
     set_steps(drift3, 0.208, 800)
 
-    E = 3960/0.06
-    Lc = 0.15
-    R = 0.03
-
-    hr = 0.005
-    hz = 0.005
-
-    Nr = int(R/hr) + 1
-    Nz = int(Lc/hz) + 1
-
-    Er = np.ones((Nr, Nz)) * E
-    Ez = np.zeros((Nr, Nz))
-    Bt = np.zeros((Nr, Nz))
-    Bz = np.zeros((Nr, Nz))
-
-    chopper = rft.RF_FieldMap_2d(
-        Er, Ez,
-        Bt, Bz,
-        hr, hz,
-        Lc,
-        0,
-        0
-    )
-    set_steps(chopper, Lc, 3000)
-
     drift_chop = rft.Drift(0.15)
     drift_chop.set_aperture(0.03)
     set_steps(drift_chop, 0.15, 800)
