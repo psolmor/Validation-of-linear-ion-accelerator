@@ -15,7 +15,7 @@ def create_lebt(B0):
     coll1 = rft.Drift(0.0025)
     coll1.set_aperture_x(0.0179)
     coll1.set_aperture_y(0.0144)
-    set_steps(coll1, 0.0025, 5000)
+    set_steps(coll1, 0.0025)
 
     drift2 = rft.Drift(0.3375)
     drift2.set_aperture(0.05)
@@ -31,13 +31,16 @@ def create_lebt(B0):
     E2 = np.deg2rad(27)
 
     L = rho * angle
-    HGAP = 0.045
+    HGAP = 0.020
     FINT = 0.7
 
     dip = rft.SBend(L, angle, P_Q, E1, E2)
     dip.set_hgap(HGAP)
     dip.set_fint(FINT)
     set_steps(dip, L, 2500)
+
+    print(f"K1_dip: {dip.get_K1()} 1/m^2, Bfield_dip: {dip.get_Bfield()} T") #B field from rftrack
+    print(f"B:{P_Q / (299.792458 * rho)} T") # B field from formula
 
     drift3 = rft.Drift(0.208)
     drift3.set_aperture(0.05)
@@ -78,19 +81,19 @@ def create_lebt(B0):
 
     drift5 = rft.Drift(0.722)
     drift5.set_aperture(0.05)
-    set_steps(drift5, 0.722, 800)
+    set_steps(drift5, 0.722, 2000)
 
     collx = rft.Drift(0.002)
     collx.set_aperture(0.0118)
-    set_steps(collx, 0.002, 5000)
+    set_steps(collx, 0.002)
 
     drift_col = rft.Drift(0.002)
     drift_col.set_aperture(0.02)
-    set_steps(drift_col, 0.002, 5000)
+    set_steps(drift_col, 0.002)
 
     colly = rft.Drift(0.002)
     colly.set_aperture(0.02)
-    set_steps(colly, 0.002, 5000)
+    set_steps(colly, 0.002)
 
     drift6 = rft.Drift(0.194)
     drift6.set_aperture(0.05)
