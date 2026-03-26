@@ -59,15 +59,19 @@ def create_lebt(B0):
     set_steps(drift5, 0.722, 2000)
 
     collx = rft.Drift(0.002)
-    collx.set_aperture(0.0118)
+    collx.set_aperture_shape("circular")
+    collx.set_aperture_x(0.0118)
+    collx.set_aperture_y(0.04)
     set_steps(collx, 0.002)
 
     drift_col = rft.Drift(0.002)
-    drift_col.set_aperture(0.02)
+    drift_col.set_aperture(0.04)
     set_steps(drift_col, 0.002)
 
     colly = rft.Drift(0.002)
-    colly.set_aperture(0.02)
+    colly.set_aperture_shape("circular")
+    colly.set_aperture_y(0.02)
+    colly.set_aperture_x(0.04)
     set_steps(colly, 0.002)
 
     drift6 = rft.Drift(0.194)
