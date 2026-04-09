@@ -17,7 +17,7 @@ def parser(file="../inputs/inputPK_lebt_12C6+_2.89uA.txt"):
     D0_vals = list(map(float, header.split()))
     N, mass, E, frec, I0, Q = D0_vals
 
-    Q = int(Q)        
+    Q = int(Q) * 6        
     N = int(N)        
     print(f"N: {N}, Mass: {mass} MeV, Energy: {E} MeV, Frequency: {frec} MHz, Current: {I0} A, Charge: {Q} e")
 
@@ -39,7 +39,7 @@ def parser(file="../inputs/inputPK_lebt_12C6+_2.89uA.txt"):
     p = np.sqrt(E_part * (E_part + 2*mass))  # MeV/c
 
 
-    frec = frec * 1e6  # MHz -> Hz
+    frec = frec   
     total_particles = I0 / (Q * 1.602e-19 * frec)
     Ns = np.full(N, total_particles / N)
     Qs = np.full(N, Q)
