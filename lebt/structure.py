@@ -96,26 +96,63 @@ def create_lebt(B0):
 
     lebt = rft.Volume()
 
-    lebt.add_ref(drift1,0,0,0)
-    lebt.add_ref(coll1,0,0,0)
-    lebt.add_ref(drift2,0,0,0)
-    lebt.add_ref(dip,0,0,0)
-    #lebt.add_ref(drift3,0,0,0)
-    ##lebt.add_ref(chopper)
-    #lebt.add_ref(drift_chop,0,0,0)
-    #lebt.add_ref(drift4,0,0,0)
-    #lebt.add_ref(drift5,0,0,0)
-    #lebt.add_ref(collx,0,0,0)
-    #lebt.add_ref(drift_col,0,0,0)
-    #lebt.add_ref(colly,0,0,0)
-    #lebt.add_ref(drift6,0,0,0)
-    #lebt.add_ref(quad1,0,0,0)
-    #lebt.add_ref(drift7,0,0,0)
-    #lebt.add_ref(quad2,0,0,0)
-    #lebt.add_ref(drift8,0,0,0)
-    #lebt.add_ref(quad3,0,0,0)
-    #lebt.add_ref(drift9,0,0,0)
-    #lebt.add_ref(sol,0,0,0)
-    #lebt.add_ref(drift10,0,0,0)
+    z = 0.0
+    lebt.add_ref(drift1, 0, 0, z)
+    z += 0.260
+    lebt.add_ref(coll1, 0, 0, z)
+    z += 0.0025
+    lebt.add_ref(drift2, 0, 0, z)
+    z += 0.3375
+    lebt.add_ref(dip, 0, 0, z)
+    z += L   
+
+
+    #lebt.add_ref(drift3, 0, 0, z)
+    #z += 0.208
+#
+    #lebt.add_ref(drift_chop, 0, 0, z)
+    #z += 0.15
+#
+    #lebt.add_ref(drift4, 0, 0, z)
+    #z += 0.14
+#
+    #lebt.add_ref(drift5, 0, 0, z)
+    #z += 0.722
+#
+    #lebt.add_ref(collx, 0, 0, z)
+    #z += 0.002
+#
+    #lebt.add_ref(drift_col, 0, 0, z)
+    #z += 0.002
+#
+    #lebt.add_ref(colly, 0, 0, z)
+    #z += 0.002
+#
+    #lebt.add_ref(drift6, 0, 0, z)
+    #z += 0.194
+#
+    #lebt.add_ref(quad1, 0, 0, z)
+    #z += 0.14
+#
+    #lebt.add_ref(drift7, 0, 0, z)
+    #z += 0.092
+#
+    #lebt.add_ref(quad2, 0, 0, z)
+    #z += 0.14
+#
+    #lebt.add_ref(drift8, 0, 0, z)
+    #z += 0.092
+#
+    #lebt.add_ref(quad3, 0, 0, z)
+    #z += 0.14
+#
+    #lebt.add_ref(drift9, 0, 0, z)
+    #z += 0.9101
+#
+    #lebt.add_ref(sol, 0, 0, z)
+    #z += 0.2574
+#
+    #lebt.add_ref(drift10, 0, 0, z)
+    #z += 0.139
 
     return lebt
