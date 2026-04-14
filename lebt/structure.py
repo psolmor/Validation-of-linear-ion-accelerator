@@ -31,8 +31,6 @@ def create_lebt(B0):
     dip.set_aperture(0.09)
     dip.set_fint(FINT)
     dip.set_aperture_shape("circular")
-    print(f"K1_dip: {dip.get_K1()} 1/m^2, Bfield_dip: {dip.get_Bfield()} T") #B field from rftrack
-    print(f"B:{P_Q / (299.792458 * rho)} T") # B field from formula
 
     drift3 = rft.Drift(0.208)
     drift3.set_aperture(0.05)
@@ -103,13 +101,12 @@ def create_lebt(B0):
     z += 0.0025
     lebt.add_ref(drift2, 0, 0, z)
     z += 0.3375
-    #lebt.add_ref(dip, 0, 0, z)
-    #z += L   
+    lebt.add_ref(dip, 0, 0, z)
+    z += L   
 
 
     #lebt.add_ref(drift3, 0, 0, z)
     #z += 0.208
-#
     #lebt.add_ref(drift_chop, 0, 0, z)
     #z += 0.15
 #
