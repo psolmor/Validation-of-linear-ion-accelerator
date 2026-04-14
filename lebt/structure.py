@@ -103,8 +103,8 @@ def create_lebt(B0):
     z += 0.0025
     lebt.add_ref(drift2, 0, 0, z)
     z += 0.3375
-    lebt.add_ref(dip, 0, 0, z)
-    z += L   
+    #lebt.add_ref(dip, 0, 0, z)
+    #z += L   
 
 
     #lebt.add_ref(drift3, 0, 0, z)
