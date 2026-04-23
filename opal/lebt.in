@@ -1,0 +1,63 @@
+OPTION, PSDUMPFREQ=1000000;
+OPTION, STATDUMPFREQ= 10 * 75;
+OPTION, TELL=TRUE;
+Option, VERSION=10900;
+
+TITLE, STRING="opal-t: simulation of LEBT";
+
+REAL Edes  = 0.182629;     
+REAL MASS  = 11174.9;      
+REAL CHARGE = 6.0;         
+REAL gamma = (Edes + MASS) / MASS;
+REAL beta  = sqrt(1 - (1 / (gamma^2)));
+REAL gambet = gamma * beta;
+REAL P0 = gambet * MASS;  
+REAL brho = (P0) / (300.0 * CHARGE);
+REAL rf   = 749.48;        
+REAL Qtot = 2.89e-06;      
+
+VALUE, VALUE={gamma, beta, gambet, P0, brho};
+
+DRIFT1: DRIFT, L=0.260, APERTURE="CIRCLE(0.1,1)", ELEMEDGE=0.000;
+COLL1:  ECOLLIMATOR,L=0.0025, XSIZE=0.0179, YSIZE=0.0144, ELEMEDGE=0.260;
+DRIFT2: DRIFT, L=0.3375, APERTURE="CIRCLE(0.1,1)", ELEMEDGE=0.285;
+
+LEBT: LINE=(DRIFT1,COLL1,DRIFT2);
+
+DISTRIB2: DISTRIBUTION,
+          TYPE=FROMFILE,
+          FNAME="opal_beam.txt";
+
+
+FS1:FIELDSOLVER, FSTYPE=NONE, MX=64, MY=64, MT=64, PARFFTX=true, PARFFTY=true, PARFFTT=true,
+		 BCFFTX=open, BCFFTY=open, BCFFTT=open, BBOXINCR=1, GREENSF=STANDARD;
+
+
+BEAM_4: BEAM,
+        PARTICLE=CARBON,
+        MASS=11174.9,
+        CHARGE=6.0,
+        PC=P0,
+        NPART=14875,
+        BCURRENT=Qtot,
+        BFREQ=rf;
+
+REAL DT = 1.0e-10;
+REAL NSTEP = 100000;
+
+SELECT, LINE=LEBT;
+
+TRACK, LINE=LEBT,
+       BEAM=BEAM_4,
+       MAXSTEPS=NSTEP,
+       DT=DT,
+       ZSTART=0.0,
+       ZSTOP=1.0;
+
+RUN, METHOD="PARALLEL-T",
+     BEAM=BEAM_4,
+     FIELDSOLVER=FS1,
+     DISTRIBUTION=DISTRIB2;
+
+ENDTRACK;
+STOP;
