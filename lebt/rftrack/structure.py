@@ -26,7 +26,7 @@ def create_lebt(B0):
     HGAP = 0.020
     FINT = 0.7
 
-    dip = rft.SBend(L, angle, P_Q, E1, E2)
+    dip = rft.SBend(L, -angle, P_Q, E1, E2)
     dip.set_hgap(HGAP)
     dip.set_aperture(0.09)
     dip.set_fint(FINT)
@@ -101,11 +101,15 @@ def create_lebt(B0):
     z += 0.0025
     lebt.add_ref(drift2, 0, 0, z)
     z += 0.3375
-    lebt.add_ref(dip, 0, 0, z)
+
+    dip_lattice = rft.Lattice()
+    dip_lattice.append(dip)
+
+    lebt.add_ref(dip_lattice, 0, 0, z)
     z += L   
 
 
-    #lebt.add_ref(drift3, 0, 0, z)
+    lebt.add_ref(drift3, 0, 0, z)
     #z += 0.208
     #lebt.add_ref(drift_chop, 0, 0, z)
     #z += 0.15
