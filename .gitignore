@@ -1,4 +1,10 @@
 jupyter-notebooks/
 ejemplos/
+opal/data/
 __pycache__/
 SimulacionLEBT.ipynb
+*.stat
+timing.dat
+*.lbal
+*.h5
+*.loss
