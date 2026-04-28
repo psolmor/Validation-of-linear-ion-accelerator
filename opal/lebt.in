@@ -1,26 +1,26 @@
-OPTION, PSDUMPFREQ=1000000;
-OPTION, STATDUMPFREQ= 10 * 75;
+OPTION, PSDUMPFREQ=10000;
+OPTION, STATDUMPFREQ= 1;
 OPTION, TELL=TRUE;
+OPTION, ASCIIDUMP=TRUE;
+OPTION, ENABLEHDF5=FALSE;
 Option, VERSION=10900;
 
 TITLE, STRING="opal-t: simulation of LEBT";
 
-REAL Edes  = 0.182629;     
-REAL MASS  = 11174.9;      
-REAL CHARGE = 6.0;         
-REAL gamma = (Edes + MASS) / MASS;
+REAL Edes  = 0.000182629;          
+REAL CHARGEo = 6.0;         
+REAL gamma = 1 + Edes/CMASS;
 REAL beta  = sqrt(1 - (1 / (gamma^2)));
 REAL gambet = gamma * beta;
-REAL P0 = gambet * MASS;  
-REAL brho = (P0) / (300.0 * CHARGE);
+REAL P0 = gambet * CMASS;  
 REAL rf   = 749.48;        
 REAL Qtot = 2.89e-06;      
 
-VALUE, VALUE={gamma, beta, gambet, P0, brho};
+VALUE, VALUE={gamma, beta, gambet, P0};
 
-DRIFT1: DRIFT, L=0.260, APERTURE="CIRCLE(0.1,1)", ELEMEDGE=0.000;
+DRIFT1: DRIFT, L=0.260, ELEMEDGE=0.000;
 COLL1:  ECOLLIMATOR,L=0.0025, XSIZE=0.0179, YSIZE=0.0144, ELEMEDGE=0.260;
-DRIFT2: DRIFT, L=0.3375, APERTURE="CIRCLE(0.1,1)", ELEMEDGE=0.285;
+DRIFT2: DRIFT, L=0.3375, ELEMEDGE=0.2625;
 
 LEBT: LINE=(DRIFT1,COLL1,DRIFT2);
 
@@ -35,14 +35,15 @@ FS1:FIELDSOLVER, FSTYPE=NONE, MX=64, MY=64, MT=64, PARFFTX=true, PARFFTY=true, P
 
 BEAM_4: BEAM,
         PARTICLE=CARBON,
-        MASS=11174.9,
-        CHARGE=6.0,
+        MASS=CMASS,
+        CHARGE=CHARGEo,
         PC=P0,
-        NPART=14875,
+        NPART=15673,
         BCURRENT=Qtot,
-        BFREQ=rf;
+        BFREQ=rf,
+        MOMENTUMTOLERANCE=0;
 
-REAL DT = 1.0e-10;
+REAL DT = 1.0e-11;
 REAL NSTEP = 100000;
 
 SELECT, LINE=LEBT;
@@ -52,7 +53,7 @@ TRACK, LINE=LEBT,
        MAXSTEPS=NSTEP,
        DT=DT,
        ZSTART=0.0,
-       ZSTOP=1.0;
+       ZSTOP=0.6;
 
 RUN, METHOD="PARALLEL-T",
      BEAM=BEAM_4,
