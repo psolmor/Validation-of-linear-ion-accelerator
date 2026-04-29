@@ -27,8 +27,8 @@ y  = data[:,2] * 1e-3 #m
 z  = data[:,4] * 1e-3 #m
 
 
-xp = data[:,1] # mrad
-yp = data[:,3] # mrad
+xp = data[:,1] * 1e-3 # mrad 
+yp = data[:,3] * 1e-3 # mrad
 pprime = np.sqrt(xp**2 + yp**2 + 1)
 betagammaz = betagamma / pprime
 betagammax = xp * betagammaz
