@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 L = 0.2574        # longitud solenoide (m)
@@ -7,7 +8,7 @@ z_start = -0.1
 z_end = L + 0.1  
 
 Nz = 2000
-B0 = 1.0
+B0 = 0.344
 
 fringe = 0.02     
 
@@ -20,6 +21,8 @@ def solenoid_profile(z, z1, z2, a):
 
 Bz = B0 * solenoid_profile(z, 0.0, L, fringe)
 
+results_dir = Path.cwd().resolve().parent / "beam_plots"
+results_dir.mkdir(parents=True, exist_ok=True)
 
 plt.figure()
 plt.plot(z, Bz)
@@ -31,7 +34,7 @@ plt.grid()
 
 plt.axvline(0, linestyle='--')
 plt.axvline(L, linestyle='--')
-
+plt.savefig(results_dir / "solenoid_profile.png", bbox_inches="tight")
 plt.show()
 
 
@@ -46,4 +49,4 @@ with open("solenoid_1D.map", "w") as f:
     for b in Bz:
         f.write(f"{b:.8e}\n")
 
-print("✔ solenoid_1D.map generado")
+print("solenoid_1D.map generated")
