@@ -1,15 +1,9 @@
 (LEBT test: drift + first collimator + drift)
 
-34 1 "rms_test.txt" ;
-
 3 0.260 "D1" ;
 
-6 1 1.79 3 1.44 "COLL1" ;
 
-3 0.0025 "COLL1_LENGTH" ;
-
-3 0.3375 "D2" ;
-
-34 0 "rms_test.txt" ;
+36 'lebt_travel.txt';
+34 1 'lebt_travel_rms.txt';
 
 SENTINEL
