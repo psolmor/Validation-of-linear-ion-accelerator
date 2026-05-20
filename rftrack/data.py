@@ -5,7 +5,7 @@ from scipy.stats import gaussian_kde
 
 
 
-def parser(file="../inputs/inputPK_lebt_12C6+_2.89uA.txt"):    
+def parser(file="../inputs/beam_outDipole_12C6+.txt"):    
     #Extraer los datos 
     fichero = file
 
@@ -17,7 +17,7 @@ def parser(file="../inputs/inputPK_lebt_12C6+_2.89uA.txt"):
     D0_vals = list(map(float, header.split()))
     N, mass, E, frec, I0, Q = D0_vals
 
-    Q = int(Q) * 6        
+    Q = int(Q)        
     N = int(N)        
     print(f"N: {N}, Mass: {mass} MeV, Energy: {E} MeV, Frequency: {frec} MHz, Current: {I0} A, Charge: {Q} e")
 
