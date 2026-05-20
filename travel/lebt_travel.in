@@ -1,6 +1,9 @@
-(LEBT test: drift + first collimator + drift)
+(LEBT after dipole)
 
-3 0.260 "D1" ;
+3 0.208 "D3";
+3 0.15 "Dchopp";
+3 0.14 "D4";
+3 0.722 "D5";
 
 
 36 'lebt_travel.txt';
