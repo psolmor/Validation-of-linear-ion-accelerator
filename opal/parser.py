@@ -20,7 +20,7 @@ gamma = E / mass + 1
 betagamma = np.sqrt(gamma**2 - 1)
 
 
-data = np.loadtxt("inputs/inputPK_lebt_12C6+_2.89uA.txt", skiprows=3)
+data = np.loadtxt("inputs/beam_outDipole_12C6+.txt", skiprows=3)
 
 x  = data[:,0] * 1e-3 #m
 y  = data[:,2] * 1e-3 #m
