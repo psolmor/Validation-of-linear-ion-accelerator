@@ -92,33 +92,36 @@ def create_lebt(B0):
     drift10.set_aperture(0.05)
 
 
+
+
     lebt = rft.Volume()
 
+
     z = 0.0
-    lebt.add_ref(drift1, 0, 0, z)
-    z += 0.260
-    lebt.add_ref(coll1, 0, 0, z)
-    z += 0.0025
-    lebt.add_ref(drift2, 0, 0, z)
-    z += 0.3375
-
-    dip_lattice = rft.Lattice()
-    dip_lattice.append(dip)
-
-    lebt.add_ref(dip, 0, 0, z)
-    z += L   
-
-
-    #lebt.add_ref(drift3, 0, 0, z)
-    #z += 0.208
-    #lebt.add_ref(drift_chop, 0, 0, z)
-    #z += 0.15
+    #lebt.add_ref(drift1, 0, 0, z)
+    #z += 0.260
+    #lebt.add_ref(coll1, 0, 0, z)
+    #z += 0.0025
+    #lebt.add_ref(drift2, 0, 0, z)
+    #z += 0.3375
 #
-    #lebt.add_ref(drift4, 0, 0, z)
-    #z += 0.14
+    #dip_lattice = rft.Lattice()
+    #dip_lattice.append(dip)
 #
-    #lebt.add_ref(drift5, 0, 0, z)
-    #z += 0.722
+    #lebt.add_ref(dip, 0, 0, z)
+    #z += L   
+#
+
+    lebt.add_ref(drift3, 0, 0, z)
+    z += 0.208
+    lebt.add_ref(drift_chop, 0, 0, z)
+    z += 0.15
+
+    lebt.add_ref(drift4, 0, 0, z)
+    z += 0.14
+
+    lebt.add_ref(drift5, 0, 0, z)
+    z += 0.722
 #
     #lebt.add_ref(collx, 0, 0, z)
     #z += 0.002
