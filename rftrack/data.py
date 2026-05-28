@@ -5,7 +5,7 @@ from scipy.stats import gaussian_kde
 
 
 
-def parser(file="../inputs/beam_outDipole_12C6+.txt"):    
+def parser(file="../inputs/beam_preQuads_12C6+.txt"):    
     #Extraer los datos 
     fichero = file
 

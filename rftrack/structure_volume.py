@@ -112,17 +112,17 @@ def create_lebt(B0):
     #z += L   
 #
 
-    lebt.add_ref(drift3, 0, 0, z)
-    z += 0.208
-    lebt.add_ref(drift_chop, 0, 0, z)
-    z += 0.15
-
-    lebt.add_ref(drift4, 0, 0, z)
-    z += 0.14
-
-    lebt.add_ref(drift5, 0, 0, z)
-    z += 0.722
-
+    #lebt.add_ref(drift3, 0, 0, z)
+    #z += 0.208
+    #lebt.add_ref(drift_chop, 0, 0, z)
+    #z += 0.15
+#
+    #lebt.add_ref(drift4, 0, 0, z)
+    #z += 0.14
+#
+    #lebt.add_ref(drift5, 0, 0, z)
+    #z += 0.722
+#
     #lebt.add_ref(collx, 0, 0, z)
     #z += 0.002
 #
@@ -135,20 +135,20 @@ def create_lebt(B0):
     #lebt.add_ref(drift6, 0, 0, z)
     #z += 0.194
 #
-    #lebt.add_ref(quad1, 0, 0, z)
-    #z += 0.14
-#
-    #lebt.add_ref(drift7, 0, 0, z)
-    #z += 0.092
-#
-    #lebt.add_ref(quad2, 0, 0, z)
-    #z += 0.14
-#
-    #lebt.add_ref(drift8, 0, 0, z)
-    #z += 0.092
-#
-    #lebt.add_ref(quad3, 0, 0, z)
-    #z += 0.14
+    lebt.add_ref(quad1, 0, 0, z)
+    z += 0.14
+
+    lebt.add_ref(drift7, 0, 0, z)
+    z += 0.092
+
+    lebt.add_ref(quad2, 0, 0, z)
+    z += 0.14
+
+    lebt.add_ref(drift8, 0, 0, z)
+    z += 0.092
+
+    lebt.add_ref(quad3, 0, 0, z)
+    z += 0.14
 #
     #lebt.add_ref(drift9, 0, 0, z)
     #z += 0.9101
