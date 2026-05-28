@@ -1,71 +1,59 @@
 import numpy as np
+from pathlib import Path
 
-def rms(arr):
-    return np.sqrt(np.mean(arr**2) - np.mean(arr)**2)
+input_file = Path("inputs/beam_outDipole_12C6+.txt")
+output_file = Path("opal/opal_beam.txt")
 
-def emittance(x, xp):
-    return np.sqrt(
-        (np.mean(x**2) - np.mean(x)**2) *
-        (np.mean(xp**2) - np.mean(xp)**2)
-        - (np.mean(x*xp) - np.mean(x)*np.mean(xp))**2
-    )
+output_file.parent.mkdir(exist_ok=True)
 
-E = 0.182629 # MeV
+data = np.loadtxt(input_file, skiprows=3)
 
-m_c12_6 = 11.9967074084982 #amu
-amu = 931.49410372 #MeV
-mass = m_c12_6 * amu
+x_mm      = data[:, 0]
+xp_mrad   = data[:, 1]
+y_mm      = data[:, 2]
+yp_mrad   = data[:, 3]
+z_mm      = data[:, 4]
+Ekin_MeV  = data[:, 8]
 
-gamma = E / mass + 1
-betagamma = np.sqrt(gamma**2 - 1)
+m_c12_6 = 11.9967074084982
+amu = 931.49410372
+mass_MeV = m_c12_6 * amu
 
+x = x_mm * 1e-3
+y = y_mm * 1e-3
+z = z_mm * 1e-3
 
-data = np.loadtxt("inputs/beam_preQuads_12C6+.txt", skiprows=3)
+xp = xp_mrad * 1e-3
+yp = yp_mrad * 1e-3
 
-x  = data[:,0] * 1e-3 #m
-y  = data[:,2] * 1e-3 #m
-z  = data[:,4] * 1e-3 #m
+gamma = 1.0 + Ekin_MeV / mass_MeV
+betagamma = np.sqrt(gamma**2 - 1.0)
 
+norm = np.sqrt(1.0 + xp**2 + yp**2)
 
-xp = data[:,1] * 1e-3 # mrad 
-yp = data[:,3] * 1e-3 # mrad
-pprime = np.sqrt(xp**2 + yp**2 + 1)
-betagammaz = betagamma / pprime
-betagammax = xp * betagammaz
-betagammay = yp * betagammaz
+pz = betagamma / norm
+px = xp * pz
+py = yp * pz
 
+opal = np.column_stack([x, px, y, py, z, pz])
 
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write(f"{len(opal)}\n")
+    np.savetxt(f, opal, fmt="%.12e")
 
-print(f"gamma: {gamma:.6f}")
-print(f"beta*gamma: {betagamma:.6f}")
-print(f"pprime: {pprime[0]:.6f}")
-print(f"betagammaz: {np.mean(betagammaz):.6f}")
-out = np.column_stack([x, betagammax, y, betagammay, z, betagammaz])
+print(f"Archivo escrito: {output_file}")
+print(f"N partículas = {len(opal)}")
+print(f"mean beta*gamma = {np.mean(np.sqrt(px**2 + py**2 + pz**2)):.8e}")
+print(f"mean pz = {np.mean(pz):.8e}")
+print(f"mean Ekin = {np.mean(Ekin_MeV):.8e} MeV")
+xp_check = px / pz
+yp_check = py / pz
 
-with open("opal/opal_beam.txt", "w", encoding="utf-8") as output_file:
-	output_file.write(f"{len(x)}\n")
-	np.savetxt(output_file, out, fmt="%.6e", delimiter=" ")
-     
-rms_x = rms(x)
-rms_y = rms(y)
-rms_z = rms(z)
+print("max |xp_check - xp| =", np.max(np.abs(xp_check - xp)))
+print("max |yp_check - yp| =", np.max(np.abs(yp_check - yp)))
 
-mean_x = np.mean(x)
-mean_y = np.mean(y)
-mean_z = np.mean(z)
+bg_check = np.sqrt(px**2 + py**2 + pz**2)
 
-rms_px = rms(betagammax)
-rms_py = rms(betagammay)
-rms_pz = rms(betagammaz)
-
-mean_px = np.mean(betagammax)
-mean_py = np.mean(betagammay)
-mean_pz = np.mean(betagammaz)
-
-print("\n************** BUNCH STATS **************")
-
-print(f"RMS beam size   = ({rms_x:.6e}, {rms_y:.6e}, {rms_z:.6e}) [m]")
-print(f"Mean position   = ({mean_x:.6e}, {mean_y:.6e}, {mean_z:.6e}) [m]")
-
-print(f"RMS momenta     = ({rms_px:.6e}, {rms_py:.6e}, {rms_pz:.6e}) [beta*gamma]")
-print(f"Mean momenta    = ({mean_px:.6e}, {mean_py:.6e}, {mean_pz:.6e}) [beta*gamma]")
+print("mean beta*gamma original =", np.mean(betagamma))
+print("mean beta*gamma OPAL     =", np.mean(bg_check))
+print("std difference           =", np.std(bg_check - betagamma))
