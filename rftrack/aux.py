@@ -25,6 +25,44 @@ def plot_phase_space(x, y, xlabel, ylabel):
 
 import matplotlib.pyplot as plt
 
+def plot_solenoid_field_lattice(lebt, L_sol=0.2574, L_drift=0.139, x_mm=0.0, y_mm=0.0):
+
+    s = np.linspace(0.0, L_sol + L_drift, 2000)   # m
+
+    x = np.full_like(s, x_mm)     # mm
+    y = np.full_like(s, y_mm)     # mm
+    z = s * 1e3                   # mm
+    t = np.zeros_like(s)          # mm/c
+
+    E, B = lebt.get_field(x, y, z, t)
+
+    B = np.asarray(B)
+
+    if B.shape[0] == 3 and B.shape[1] == len(s):
+        B = B.T
+
+    Bx = B[:, 0]
+    By = B[:, 1]
+    Bz = B[:, 2]
+    Babs = np.sqrt(Bx**2 + By**2 + Bz**2)
+
+    Bz_hard = np.where((s >= 0.0) & (s <= L_sol), 0.344, 0.0)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(s, Bz, linewidth=2.2, label=r"RF-Track $B_z$")
+    plt.plot(s, Bz_hard, "--", linewidth=2.0, label=r"Hard-edge $B_z$")
+    plt.axvline(0.0, color="k", linewidth=1, alpha=0.4)
+    plt.axvline(L_sol, color="k", linewidth=1, alpha=0.4)
+    plt.xlabel(r"$s$ [m]")
+    plt.ylabel(r"$B_z$ [T]")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("rftrack_solenoid_Bz.png", dpi=300)
+    plt.show()
+
+    return s, Bx, By, Bz, Babs
+
 def plot_lattice(ax):
     elements = [
         ("drift", 0.260),
