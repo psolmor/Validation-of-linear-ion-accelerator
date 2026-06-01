@@ -161,6 +161,4 @@ def create_lebt(B0):
     lebt.add_ref(drift10, 0, 0, z)
     z += 0.139
 
-    lebt.set_s1(z+0.02)
-
     return lebt
