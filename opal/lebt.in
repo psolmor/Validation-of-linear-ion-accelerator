@@ -14,10 +14,10 @@ REAL gamma = 1 + Edes/CMASS;
 REAL beta  = sqrt(1 - (1 / (gamma^2)));
 REAL gambet = gamma * beta;
 REAL P0 = gambet * CMASS;  
-REAL rf   = 749.48;        
-REAL Qtot = 2.89e-06;     
+REAL rf   = 749.48;            
 REAL PIHALF = PI/2;
 REAL E_ang = 27*degrad;
+REAL Ibeam = 0.01;
 
 VALUE, VALUE={gamma, beta, gambet, P0,PIHALF};
 
@@ -61,8 +61,8 @@ DISTRIB2: DISTRIBUTION,
           FNAME="opal_beam.txt";
 
 
-FS1:FIELDSOLVER, FSTYPE=NONE, MX=64, MY=64, MT=64, PARFFTX=true, PARFFTY=true, PARFFTT=true,
-		 BCFFTX=open, BCFFTY=open, BCFFTT=open, BBOXINCR=1, GREENSF=STANDARD;
+FS1:FIELDSOLVER, FSTYPE=FFT, MX=16, MY=16, MT=16, PARFFTX=true, PARFFTY=true, PARFFTT=true,
+		 BCFFTX=open, BCFFTY=open, BCFFTT=open, BBOXINCR=2, GREENSF=INTEGRATED;
 
 
 BEAM_4: BEAM,
@@ -71,7 +71,7 @@ BEAM_4: BEAM,
         CHARGE=CHARGEo,
         PC=P0,
         NPART= 15673,
-        BCURRENT=Qtot,
+        BCURRENT=Ibeam,
         BFREQ=rf,
         MOMENTUMTOLERANCE=0;
 
