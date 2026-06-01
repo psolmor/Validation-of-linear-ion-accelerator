@@ -51,3 +51,76 @@ def parser(file="../inputs/beam_outDipole_12C6+.txt"):
 
 
     return rft.Bunch6d(F)
+
+def parser_volume(file="../inputs/beam_outDipole_12C6+.txt"):
+    fichero = file
+
+    with open(fichero, "r") as f:
+        lines = f.readlines()
+
+    N_header, mass, E0, frec_MHz, I0, Q = map(float, lines[1].split())
+
+    N_header = int(N_header)
+    Q = int(Q)
+
+    print(
+        f"N: {N_header}, Mass: {mass} MeV, Energy: {E0} MeV, "
+        f"Frequency: {frec_MHz} MHz, Current: {I0} A, Charge: {Q} e"
+    )
+
+    data = np.loadtxt(fichero, skiprows=3)
+
+    x    = data[:, 0]   # mm
+    xp   = data[:, 1]   # mrad
+    y    = data[:, 2]   # mm
+    yp   = data[:, 3]   # mrad
+    z    = data[:, 4]   # mm
+    zp   = data[:, 5]   # mrad
+    ph   = data[:, 6]   # deg, 
+    time = data[:, 7]   # s
+    Ekin = data[:, 8]   # MeV
+    loss = data[:, 9]
+
+    good = loss == 0
+
+    x = x[good]
+    xp = xp[good]
+    y = y[good]
+    yp = yp[good]
+    z = z[good]
+    Ekin = Ekin[good]
+
+    N_macro = len(x)
+
+    # Momento total relativista [MeV/c]
+    P = np.sqrt(Ekin * (Ekin + 2.0 * mass))
+
+    # RF-Track: xp = Px/Pz en mrad
+    xp_rad = xp * 1e-3
+    yp_rad = yp * 1e-3
+
+    Pz = P / np.sqrt(1.0 + xp_rad**2 + yp_rad**2)
+    Px = xp_rad * Pz
+    Py = yp_rad * Pz
+
+    ms = np.full(N_macro, mass)
+    Qs = np.full(N_macro, Q)
+
+    # Si I0 = 0, dejamos peso 1 por macropartícula.
+    # Si I0 != 0, calculamos el número real de partículas por macropartícula.
+    if I0 == 0:
+        Ns = np.ones(N_macro)
+    else:
+        e_charge = 1.602176634e-19
+        frec_Hz = frec_MHz * 1e6
+        total_particles = I0 / (abs(Q) * e_charge * frec_Hz)
+        Ns = np.full(N_macro, total_particles / N_macro)
+
+    # Para Bunch6dT: tiempo de creación en mm/c.
+    t0 = np.zeros(N_macro)
+
+    # Bunch6dT espera:
+    # X, Px, Y, Py, Z, Pz, MASS, Q, N, T0
+    F = np.column_stack((x, Px, y, Py, z, Pz, ms, Qs))
+
+    return rft.Bunch6dT(F)
