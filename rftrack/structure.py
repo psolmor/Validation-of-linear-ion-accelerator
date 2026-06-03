@@ -1,19 +1,17 @@
 import RF_Track as rft
 import numpy as np
 
-def set_steps(element, length, ds=0.006, min_steps=10):
-
-    n = max(min_steps, int(np.ceil(length / ds)))
-
+def set_steps(element, length, steps_meter=3000):
+    n = max(10, int(length * steps_meter))
     element.set_nsteps(n)
-    element.set_tt_nsteps(n)
+    #element.set_tt_nsteps(n)
     element.set_sc_nsteps(n)
 
 def create_lebt(B0):
 
     drift1 = rft.Drift(0.260)
     drift1.set_aperture(0.05)
-    set_steps(drift1, 0.260, 800)
+    set_steps(drift1, 0.260)
 
     coll1 = rft.Drift(0.0025)
     coll1.set_aperture_x(0.0179)
@@ -22,7 +20,7 @@ def create_lebt(B0):
 
     drift2 = rft.Drift(0.3375)
     drift2.set_aperture(0.05)
-    set_steps(drift2, 0.3375, 800)
+    set_steps(drift2, 0.3375)
 
     M0 = B0.get_phase_space('%P %Q')
     P0 = np.mean(M0[:,0])
@@ -47,19 +45,19 @@ def create_lebt(B0):
 
     drift3 = rft.Drift(0.208)
     drift3.set_aperture(0.05)
-    set_steps(drift3, 0.208, 800)
+    set_steps(drift3, 0.208)
 
     drift_chop = rft.Drift(0.15)
     drift_chop.set_aperture(0.03)
-    set_steps(drift_chop, 0.15, 800)
+    set_steps(drift_chop, 0.15)
 
     drift4 = rft.Drift(0.14)
     drift4.set_aperture(0.055)
-    set_steps(drift4, 0.14, 800)
+    set_steps(drift4, 0.14)
 
     drift5 = rft.Drift(0.722)
     drift5.set_aperture(0.05)
-    set_steps(drift5, 0.722, 2000)
+    set_steps(drift5, 0.722)
 
     collx = rft.Drift(0.002)
     collx.set_aperture_shape("circular")
@@ -79,59 +77,41 @@ def create_lebt(B0):
 
     drift6 = rft.Drift(0.194)
     drift6.set_aperture(0.05)
-    set_steps(drift6, 0.194, 800)
+    set_steps(drift6, 0.194)
 
     quad1 = rft.Quadrupole(0.14)
     quad1.set_aperture(0.042)
     quad1.set_gradient(-1.19)
-    set_steps(quad1, 0.14, 1500)
+    set_steps(quad1, 0.14)
 
     drift7 = rft.Drift(0.092)
     drift7.set_aperture(0.05)
-    set_steps(drift7, 0.092, 800)
+    set_steps(drift7, 0.092)
 
     quad2 = rft.Quadrupole(0.14)
     quad2.set_aperture(0.042)
     quad2.set_gradient(1.76)
-    set_steps(quad2, 0.14, 1500)
+    set_steps(quad2, 0.14)
 
     drift8 = rft.Drift(0.092)
     drift8.set_aperture(0.05)
-    set_steps(drift8, 0.092, 800)
+    set_steps(drift8, 0.092)
 
     quad3 = rft.Quadrupole(0.14)
     quad3.set_aperture(0.042)
     quad3.set_gradient(-2.13)
-    set_steps(quad3, 0.14, 1500)
+    set_steps(quad3, 0.14)
 
     drift9 = rft.Drift(0.9101)
     drift9.set_aperture(0.05)
-    set_steps(drift9, 0.9101, 800)
+    set_steps(drift9, 0.9101)
 
     sol = rft.Solenoid(0.2574,0.344,0.042)
-    set_steps(sol, 0.2574, 1800)
+    set_steps(sol, 0.2574)
 
     drift10 = rft.Drift(0.139)
     drift10.set_aperture(0.05)
-    set_steps(drift10, 0.139, 800)
-
-    set_steps(drift3, 0.208, ds=0.006)
-    set_steps(drift_chop, 0.150, ds=0.006)
-    set_steps(drift4, 0.140, ds=0.006)
-    set_steps(drift5, 0.722, ds=0.006)
-    set_steps(collx, 0.002, ds=0.006)
-    set_steps(drift_col, 0.002, ds=0.006)
-    set_steps(colly, 0.002, ds=0.006)
-    set_steps(drift6, 0.194, ds=0.006)
-    set_steps(quad1, 0.140, ds=0.006)
-    set_steps(drift7, 0.092, ds=0.006)
-    set_steps(quad2, 0.140, ds=0.006)
-    set_steps(drift8, 0.092, ds=0.006)
-    set_steps(quad3, 0.140, ds=0.006)
-    set_steps(drift9, 0.9101, ds=0.006)
-    set_steps(sol, 0.2574, ds=0.006)
-    set_steps(drift10, 0.139, ds=0.006)
-
+    set_steps(drift10, 0.139)
 
     lebt = rft.Lattice()
 
