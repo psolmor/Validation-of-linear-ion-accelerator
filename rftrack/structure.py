@@ -1,10 +1,13 @@
 import RF_Track as rft
 import numpy as np
 
-def set_steps(element, length, steps_meter=1000):
-    n = max(10, int(length * steps_meter))
+def set_steps(element, length, ds=0.006, min_steps=10):
+
+    n = max(min_steps, int(np.ceil(length / ds)))
+
     element.set_nsteps(n)
     element.set_tt_nsteps(n)
+    element.set_sc_nsteps(n)
 
 def create_lebt(B0):
 
@@ -111,6 +114,24 @@ def create_lebt(B0):
     drift10 = rft.Drift(0.139)
     drift10.set_aperture(0.05)
     set_steps(drift10, 0.139, 800)
+
+    set_steps(drift3, 0.208, ds=0.006)
+    set_steps(drift_chop, 0.150, ds=0.006)
+    set_steps(drift4, 0.140, ds=0.006)
+    set_steps(drift5, 0.722, ds=0.006)
+    set_steps(collx, 0.002, ds=0.006)
+    set_steps(drift_col, 0.002, ds=0.006)
+    set_steps(colly, 0.002, ds=0.006)
+    set_steps(drift6, 0.194, ds=0.006)
+    set_steps(quad1, 0.140, ds=0.006)
+    set_steps(drift7, 0.092, ds=0.006)
+    set_steps(quad2, 0.140, ds=0.006)
+    set_steps(drift8, 0.092, ds=0.006)
+    set_steps(quad3, 0.140, ds=0.006)
+    set_steps(drift9, 0.9101, ds=0.006)
+    set_steps(sol, 0.2574, ds=0.006)
+    set_steps(drift10, 0.139, ds=0.006)
+
 
     lebt = rft.Lattice()
 
