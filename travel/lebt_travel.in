@@ -4,6 +4,9 @@
 34 1 'lebt_travel_rms.txt';
 33 1 'lebt_travel_avg.txt';
 
+(--- Space charge: 1 mA, ring of charge ---)
+24 1 0 0 0 0;
+
 (--- D3: 0.208 m ---)
 9 208;
 3 0.001 "D3";

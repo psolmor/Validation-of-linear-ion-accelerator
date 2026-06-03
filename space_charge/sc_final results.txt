@@ -124,3 +124,29 @@ Twiss alpha_y = -2.964999
 sigma_y      = 5.667969 mm
 sigma_yp     = 13.836625 mrad
 transmision: 93.61960058699674
+
+
+TRAVEL final values
+-------------------
+
+tiempo 39.755 segundos
+94.47%
+
+X-X'
+emit_x   = 0.216103 pi mm mrad
+beta_x   = 0.011604 m/rad
+alpha_x  = 0.093785
+sigma_x  = 0.662271 mm
+sigma_xp = 57.325780 mrad
+
+Y-Y'
+emit_y   = 0.069661 pi mm mrad
+beta_y   = 0.009375 m/rad
+alpha_y  = -0.916483
+sigma_y  = 0.337981 mm
+sigma_yp = 48.903867 mrad
+
+Other
+s        = 3.326500 m
+sigma_p  = 7.277529e-02 MeV/c
+sigma_E  = 4.160840e-04 MeV
