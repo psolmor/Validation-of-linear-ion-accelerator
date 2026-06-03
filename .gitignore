@@ -8,7 +8,7 @@ timing.dat
 *.lbal
 *.h5
 *.loss
-envelopes.txt
 TRAVEL.OUT
 BEAMT.DAT
 beam_plots/
+resultados_finales/
