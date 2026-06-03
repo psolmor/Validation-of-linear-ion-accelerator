@@ -1,0 +1,20 @@
+RF-Track Volume final values
+----------------------------
+
+X-X'
+emit_x       = 0.260088 mm mrad
+Twiss beta_x = 0.120914 mm/mrad
+Twiss alpha_x = 0.142394
+sigma_x      = 2.277312 mm
+sigma_xp     = 45578.333202 mrad
+
+Y-Y'
+emit_y       = 0.150169 mm mrad
+Twiss beta_y = 0.096163 mm/mrad
+Twiss alpha_y = 0.158955
+sigma_y      = 1.590624 mm
+sigma_yp     = 41076.357961 mrad
+
+4D
+emit4D       = 1.322603e-02 (mm mrad)^2
+Transmision: 93.30058061634658
