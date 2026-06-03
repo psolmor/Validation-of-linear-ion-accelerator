@@ -23,8 +23,6 @@ def plot_phase_space(x, y, xlabel, ylabel):
     plt.tight_layout()
     plt.show()
 
-import matplotlib.pyplot as plt
-
 def plot_solenoid_field_lattice(lebt, L_sol=0.2574, L_drift=0.139, x_mm=0.0, y_mm=0.0):
 
     s = np.linspace(0.0, L_sol + L_drift, 2000)   # m
@@ -63,73 +61,88 @@ def plot_solenoid_field_lattice(lebt, L_sol=0.2574, L_drift=0.139, x_mm=0.0, y_m
 
     return s, Bx, By, Bz, Babs
 
-def plot_lattice(ax):
+from matplotlib.patches import Rectangle
+
+def plot_lattice(ax, s_offset=0.0, show_labels=False, min_width=0.012):
     elements = [
-        ("drift", 0.260),
-        ("coll", 0.0025),
-        ("drift", 0.3375),
-        ("dipole", 0.628318),
-        ("drift", 0.208),
-        ("chopper", 0.150),
-        ("drift", 0.140),
-        ("drift", 0.722),
-        ("collx", 0.002),
-        ("drift", 0.002),
-        ("colly", 0.002),
-        ("drift", 0.194),
-        ("quad", 0.140),
-        ("drift", 0.092),
-        ("quad", 0.140),
-        ("drift", 0.092),
-        ("quad", 0.140),
-        ("drift", 0.9101),
-        ("solenoid", 0.2574),
-        ("drift", 0.1393),
+        ("drift3",      "drift",    0.208),
+        ("drift_chop", "chopper",  0.150),
+        ("drift4",     "drift",    0.140),
+        ("drift5",     "drift",    0.722),
+
+        ("collx",      "coll",     0.002),
+        ("drift_col",  "drift",    0.002),
+        ("colly",      "coll",     0.002),
+
+        ("drift6",     "drift",    0.194),
+        ("quad1",      "quad",     0.140),
+        ("drift7",     "drift",    0.092),
+        ("quad2",      "quad",     0.140),
+        ("drift8",     "drift",    0.092),
+        ("quad3",      "quad",     0.140),
+
+        ("drift9",     "drift",    0.9101),
+        ("sol",        "solenoid", 0.2574),
+        ("drift10",    "drift",    0.139),
     ]
 
+    styles = {
+        "quad":     dict(color="black", alpha=0.90),
+        "solenoid": dict(color="black", alpha=0.45),
+        "coll":     dict(color="gray", alpha=0.70),
+        "chopper":  dict(color="purple", alpha=0.45),
+    }
+
     y_min, y_max = ax.get_ylim()
+    yrange = y_max - y_min
 
-    height = 0.15 * (y_max - y_min)
-    y0 = -height / 2  
+    # Altura visual de los elementos
+    height = 0.16 * yrange
 
-    s_pos = 0
+    # Centrado en y = 0
+    y0 = -height / 2
 
-    for name, length in elements:
-        s0 = s_pos
-        s1 = s_pos + length
+    z = 0.0
 
-        if name == "dipole":
-            color = "black"
-            alpha = 0.25
+    for label, kind, length in elements:
+        s0_real = s_offset + z
+        s1_real = s_offset + z + length
 
-        elif name == "quad":
-            color = "black"
-            alpha = 0.9
+        if kind != "drift":
+            width = max(length, min_width)
 
-        elif name == "solenoid":
-            color = "black"
-            alpha = 0.5
+            # Mantiene el centro físico real aunque se ensanche visualmente
+            center = 0.5 * (s0_real + s1_real)
+            s0_plot = center - width / 2
 
-        elif name.startswith("coll"):
-            color = "gray"
-            alpha = 0.6
+            rect = Rectangle(
+                (s0_plot, y0),
+                width,
+                height,
+                linewidth=0,
+                zorder=0,
+                **styles[kind]
+            )
+            ax.add_patch(rect)
 
-        elif name == "chopper":
-            color = "purple"
-            alpha = 0.5
+            if show_labels:
+                ax.text(
+                    center,
+                    y0 + 0.6 * height,
+                    label,
+                    ha="center",
+                    va="bottom",
+                    fontsize=8,
+                    rotation=90,
+                    zorder=3
+                )
 
-        else:
-            s_pos = s1
-            continue
+        z += length
 
-        rect = plt.Rectangle(
-            (s0, y0),
-            s1 - s0,
-            height,
-            color=color,
-            alpha=alpha
-        )
+    # Línea central del haz
+    ax.axhline(0.0, color="gray", linewidth=1.0, alpha=0.6, zorder=0)
 
-        ax.add_patch(rect)
+    # Recupera límites originales
+    ax.set_ylim(y_min, y_max)
 
-        s_pos = s1
+    return s_offset + z

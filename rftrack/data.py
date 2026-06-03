@@ -56,34 +56,30 @@ def parser_volume(file="../inputs/beam_outDipole_12C6+.txt"):
     fichero = file
 
     with open(fichero, "r") as f:
-        header = f.readlines()[1] 
+        lines = f.readlines()
 
-    # N_particles, Mass(MeV), Beam_energy(MeV), Beam_Frequency(MHz), Beam_current(A), Beam_Charge
-    N_header, mass, E, frec_MHz, I0, Q = map(float, header.split())
+    N_header, mass, E0, frec_MHz, I0, Q = map(float, lines[1].split())
 
-    Q = int(Q)
     N_header = int(N_header)
+    Q = int(Q)
 
     print(
-        f"N: {N_header}, Mass: {mass} MeV, Energy: {E} MeV, "
+        f"N: {N_header}, Mass: {mass} MeV, Energy: {E0} MeV, "
         f"Frequency: {frec_MHz} MHz, Current: {I0} A, Charge: {Q} e"
     )
 
-    data_vals = np.loadtxt(
-        fichero,
-        skiprows=3,
-        usecols=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-    )
+    data = np.loadtxt(fichero, skiprows=3)
 
-    x   = data_vals[:, 0]  # mm
-    xp  = data_vals[:, 1]  # mrad 
-    y   = data_vals[:, 2]  # mm
-    yp  = data_vals[:, 3]  # mrad
-    z   = data_vals[:, 4]  # mm
-    zp  = data_vals[:, 5]  # mrad 
-    ph  = np.deg2rad(data_vals[:, 6])
-    E_part = data_vals[:, 8]  # MeV
-    loss = data_vals[:, 9]
+    x    = data[:, 0]   # mm
+    xp   = data[:, 1]   # mrad
+    y    = data[:, 2]   # mm
+    yp   = data[:, 3]   # mrad
+    z    = data[:, 4]   # mm
+    zp   = data[:, 5]   # mrad
+    ph   = data[:, 6]   # deg
+    time = data[:, 7]   # s
+    Ekin = data[:, 8]   # MeV
+    loss = data[:, 9]
 
     good = loss == 0
 
@@ -91,48 +87,42 @@ def parser_volume(file="../inputs/beam_outDipole_12C6+.txt"):
     xp = xp[good]
     y = y[good]
     yp = yp[good]
-    E_part = E_part[good]
+    z = z[good]
+    Ekin = Ekin[good]
 
     N_macro = len(x)
 
-    t = np.zeros(N_macro)
+    # Momento total relativista [MeV/c]
+    P = np.sqrt(Ekin * (Ekin + 2.0 * mass))
 
-    p = np.sqrt(E_part * (E_part + 2.0 * mass))  # MeV/c
+    # RF-Track: xp = Px/Pz en mrad
+    xp_rad = xp * 1e-3
+    yp_rad = yp * 1e-3
 
-    e_charge = 1.602176634e-19
-    frec_Hz = frec_MHz * 1e6
+    Pz = P / np.sqrt(1.0 + xp_rad**2 + yp_rad**2)
+    Px = xp_rad * Pz
+    Py = yp_rad * Pz
 
-    total_particles = I0 / (abs(Q) * e_charge * frec_Hz)
-    Ns = np.full(N_macro, total_particles / N_macro)
-
-    Qs = np.full(N_macro, Q)
     ms = np.full(N_macro, mass)
+    Qs = np.full(N_macro, Q)
 
-    e_charge = 1.602176634e-19
-    frec_Hz = frec_MHz * 1e6          # MHz -> Hz
-
-    if np.isclose(I0, 0.0):
+    # N: número de partículas reales por macropartícula
+    if I0 == 0:
         Ns = np.ones(N_macro)
-        print("I0 = 0 A: 1 macroparticle.")
-
     else:
-        bunch_charge = I0 / frec_Hz
-        macro_charge = bunch_charge / N_macro
-        particle_charge = abs(Q) * e_charge
+        e_charge = 1.602176634e-19
+        frec_Hz = frec_MHz * 1e6
+        total_particles = I0 / (abs(Q) * e_charge * frec_Hz)
+        Ns = np.full(N_macro, total_particles / N_macro)
 
-        particles_per_macro = macro_charge / particle_charge
+    print(f"N por macropartícula: {Ns[0]}")
+    print(f"N total representado: {np.sum(Ns)}")
 
-        Ns = np.full(N_macro, particles_per_macro)
+    # Para Bunch6dT: tiempo de creación en mm/c
+    t0 = np.zeros(N_macro)
 
-        print(f"Bunch charge = {bunch_charge:.6e} C")
-        print(f"Charge per macroparticle = {macro_charge:.6e} C")
-        print(f"Particles per macroparticle = {particles_per_macro:.6e}")
-        print(f"Total current represented = {abs(Q) * e_charge * frec_Hz * np.sum(Ns):.6e} A")
+    # Bunch6dT espera:
+    # X, Px, Y, Py, Z, Pz, MASS, Q, N, T0
+    F = np.column_stack((x, Px, y, Py, z, Pz, ms, Qs, Ns, t0))
 
-    Qs = np.full(N_macro, Q)
-    ms = np.full(N_macro, mass)
-
-    # Bunch6d: x, x', y, y', t, p, mass, charge, N
-    F = np.column_stack((x, xp, y, yp, t, p, ms, Qs, Ns))
-
-    return rft.Bunch6d(F)
+    return rft.Bunch6dT(F)
