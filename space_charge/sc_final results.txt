@@ -129,7 +129,7 @@ transmision: 93.61960058699674
 TRAVEL final values
 -------------------
 
-tiempo 39.755 segundos
+tiempo 39.755 segundos, sin sc 23.663s
 94.47%
 
 X-X'
