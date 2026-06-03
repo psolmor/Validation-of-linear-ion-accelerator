@@ -1,5 +1,6 @@
 RF-Track Volume final values
 ----------------------------
+88 min 30 s
 
 X-X'
 emit_x       = 0.260088 mm mrad
@@ -18,3 +19,108 @@ sigma_yp     = 41076.357961 mrad
 4D
 emit4D       = 1.322603e-02 (mm mrad)^2
 Transmision: 93.30058061634658
+
+OPAL final values
+-----------------
+mings{0}>      Timing results for 6 nodes:
+Timings{0}> -----------------------------------------------------------------
+Timings{0}> mainTimer........... Wall tot =     909.79, CPU tot =     926.07
+Timings{0}> 
+Timings{0}> Binaryrepart........ Wall max =       0.23, CPU max =       0.22
+Timings{0}>                      Wall avg =   0.228333, CPU avg =   0.188333
+Timings{0}>                      Wall min =       0.22, CPU min =       0.14
+Timings{0}> 
+Timings{0}> Boundingbox......... Wall max =      25.04, CPU max =      25.75
+Timings{0}>                      Wall avg =       24.6, CPU avg =     24.395
+Timings{0}>                      Wall min =      24.27, CPU min =      23.54
+Timings{0}> 
+Timings{0}> Boundingbox-bounds.. Wall max =       2.78, CPU max =        2.9
+Timings{0}>                      Wall avg =    2.61833, CPU avg =    2.63167
+Timings{0}>                      Wall min =       2.46, CPU min =       2.43
+Timings{0}> 
+Timings{0}> Boundingbox-update.. Wall max =      14.48, CPU max =      15.39
+Timings{0}>                      Wall avg =      14.39, CPU avg =     14.415
+Timings{0}>                      Wall min =      14.32, CPU min =      13.78
+Timings{0}> 
+Timings{0}> Compute Statistics.. Wall max =      99.85, CPU max =     101.74
+Timings{0}>                      Wall avg =      99.75, CPU avg =    100.518
+Timings{0}>                      Wall min =      99.52, CPU min =      98.96
+Timings{0}> 
+Timings{0}> ComputePotential.... Wall max =     223.62, CPU max =     230.07
+Timings{0}>                      Wall avg =    223.285, CPU avg =    228.765
+Timings{0}>                      Wall min =     222.93, CPU min =     227.95
+Timings{0}> 
+Timings{0}> Create Distr........ Wall max =       0.06, CPU max =       0.06
+Timings{0}>                      Wall avg =       0.06, CPU avg =       0.05
+Timings{0}>                      Wall min =       0.06, CPU min =       0.04
+Timings{0}> 
+Timings{0}> External field eval. Wall max =     132.66, CPU max =     136.59
+Timings{0}>                      Wall avg =    127.615, CPU avg =    130.208
+Timings{0}>                      Wall min =     123.21, CPU min =     124.68
+Timings{0}> 
+Timings{0}> Fast inside test.... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Histogram........... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Initialize geometry. Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Inside test......... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Load Distr.......... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Particle Inside..... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Ray tracing......... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> SelfField total..... Wall max =     393.56, CPU max =     402.98
+Timings{0}>                      Wall avg =    391.982, CPU avg =    400.813
+Timings{0}>                      Wall min =     389.66, CPU min =     399.48
+Timings{0}> 
+Timings{0}> SF: GreensFTotal.... Wall max =     115.74, CPU max =     118.65
+Timings{0}>                      Wall avg =    115.505, CPU avg =    117.877
+Timings{0}>                      Wall min =      115.2, CPU min =     116.67
+Timings{0}> 
+Timings{0}> TIntegration1....... Wall max =      12.45, CPU max =      12.55
+Timings{0}>                      Wall avg =    12.2417, CPU avg =    11.9933
+Timings{0}>                      Wall min =      12.07, CPU min =      11.55
+Timings{0}> 
+Timings{0}> TIntegration2....... Wall max =      28.29, CPU max =      28.86
+Timings{0}>                      Wall avg =    28.2233, CPU avg =    28.2167
+Timings{0}>                      Wall min =      28.13, CPU min =      27.16
+Timings{0}> 
+Timings{0}> WakeField........... Wall max =          0, CPU max =          0
+Timings{0}>                      Wall avg =          0, CPU avg =          0
+Timings{0}>                      Wall min =          0, CPU min =          0
+Timings{0}> 
+Timings{0}> Write Stat.......... Wall max =      25.54, CPU max =      26.16
+Timings{0}>                      Wall avg =      6.515, CPU avg =    6.50333
+Timings{0}>                      Wall min =       2.56, CPU min =       2.38
+
+X-X'
+emit_x_norm  = 0.134882 mm mrad
+Twiss beta_x = 3.569476 m/rad
+Twiss alpha_x = -7.593715
+sigma_x      = 9.176712 mm
+sigma_xp     = 19.691120 mrad
+
+Y-Y'
+emit_y_norm  = 0.143293 mm mrad
+Twiss beta_y = 1.281786 m/rad
+Twiss alpha_y = -2.964999
+sigma_y      = 5.667969 mm
+sigma_yp     = 13.836625 mrad
+transmision: 93.61960058699674
