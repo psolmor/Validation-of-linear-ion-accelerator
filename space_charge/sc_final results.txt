@@ -1,6 +1,6 @@
 RF-Track Volume final values
 ----------------------------
-88 min 30 s
+88 min 30 s sin 32 min 4 s
 
 X-X'
 emit_x       = 0.260088 mm mrad
