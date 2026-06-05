@@ -1,11 +1,43 @@
 import RF_Track as rft
 import numpy as np
 
-def set_steps(element, length, steps_meter=3000):
-    n = max(10, int(length * steps_meter))
+# ============================================================
+# Estimación para 12C6+ a Ekin = 0.182629 MeV
+# ============================================================
+
+MASS_C12_MEV = 11174.862        # MeV/c^2
+EKIN_MEV = 0.182629             # MeV
+
+gamma_est = 1.0 + EKIN_MEV / MASS_C12_MEV
+BETA_EST = np.sqrt(1.0 - 1.0 / gamma_est**2)
+
+CT_STEP_M = 6e-3                # 6 mm/c
+DS_EQUIV_M = BETA_EST * CT_STEP_M
+
+STEPS_PER_METER_EQ = 1.0 / DS_EQUIV_M
+
+print(f"beta estimado = {BETA_EST:.6e}")
+print(f"c*dt = {CT_STEP_M*1e3:.3f} mm")
+print(f"ds equivalente = {DS_EQUIV_M*1e3:.6f} mm")
+print(f"steps/m equivalente = {STEPS_PER_METER_EQ:.0f}")
+
+
+def set_steps(element, length, min_steps=10):
+    """
+    Número de pasos equivalente a un paso temporal c*dt = 6 mm/c.
+
+    Para beta ~ 0.005717:
+        ds = beta * 6 mm ~ 0.0343 mm
+        steps/m ~ 29150
+    """
+    n = max(min_steps, int(np.ceil(length / DS_EQUIV_M)))
+
     element.set_nsteps(n)
-    #element.set_tt_nsteps(n)
+    element.set_tt_nsteps(n)
     element.set_sc_nsteps(n)
+
+    return n
+
 
 def create_lebt(B0):
 
